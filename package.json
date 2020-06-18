@@ -2,14 +2,14 @@
   "name": "yaml-sort",
   "version": "1.0.0",
   "description": "CLI tool to sort YAML files alphabetically",
-  "main": "index.js",
+  "main": "yaml-sort.js",
   "scripts": {
     "test": "test/test.js",
-    "lint": "eslint index.js test/*.js",
-    "fix": "eslint --fix index.js test/*.js"
+    "lint": "eslint *.js test/*.js",
+    "fix": "eslint --fix *.js test/*.js"
   },
   "bin": {
-    "yaml-sort": "index.js"
+    "yaml-sort": "yaml-sort.js"
   },
   "repository": {
     "type": "git",

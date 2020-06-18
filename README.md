@@ -13,18 +13,19 @@ This tool is basically a tiny wrapper around [js-yaml](https://github.com/nodeca
 # Usage
 
 ```
-Usage: yml-sorter [options]
+Usage: yaml-sort [options]
 
 Options:
-  --input, -i     The yml file which needs to be sorted  [required]
-  --output, -o    The file to wich to write the output
-  --dry-run, -d   Only outputs the proposed sort to the terminal  [default: false]
-  --indent, --id  Indentation width to use (in spaces)  [default: 2]
-  -h, --help      Show help  [boolean]
+  --input, -i      The YAML file which needs to be sorted  [array] [required]
+  --output, -o     The YAML file to output sorted content to  [string]
+  --stdout, -s     Outputs the proposed sort to STDOUT only  [boolean] [default: false]
+  --indent, --id   Indentation width to use (in spaces)  [number] [default: 2]
+  --lineWidth, -w  Wrap line width  [number] [default: 80]
+  -h, --help       Show help  [boolean]
+  --version        Show version number  [boolean]
 
 Examples:
-  yml-sorter --input application-yml                       Sorts the file application.yml alphabetically.
-  yml-sorter --input application-yml --output dragons.yml  Sorts and writes the output to dragons.yml
-  yml-sorter --input application-yml --dry-run             Writes the output to the terminal
-  yml-sorter --input application-yml --indent 4            Indent with 4 spaces
+  yaml-sort --input config.yml                                 Sorts alphabetically and overwrites the file config.yml.
+  yaml-sort --input config.yml --lineWidth 100 --stdout        Sorts the file config.yml and output result to STDOUT wrapped to 100 columns
+  yaml-sort --input config.yml --indent 4 --output sorted.yml  Indents with 4 spaces and outputs result to file sorted.yml.
 ```
