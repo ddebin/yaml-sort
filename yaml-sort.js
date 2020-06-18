@@ -18,7 +18,7 @@ const argv = require('yargs')
     )
     .option('input', {
         alias: 'i',
-        describe: 'The YAML file which needs to be sorted',
+        describe: 'The YAML file(s) which needs to be sorted',
         demandOption: 'Please provide an input file',
         string: true,
         array: true,
@@ -31,7 +31,13 @@ const argv = require('yargs')
     .option('stdout', {
         alias: 's',
         default: false,
-        describe: 'Outputs the proposed sort to STDOUT only',
+        describe: 'Output the proposed sort to STDOUT only',
+        boolean: true,
+    })
+    .option('check', {
+        alias: 'k',
+        default: false,
+        describe: 'Check if the given file(s) is already sorted',
         boolean: true,
     })
     .option('indent', {
@@ -56,17 +62,24 @@ const argv = require('yargs')
 const yaml = require('js-yaml');
 const fs = require('fs');
 
+let success = true;
+
 argv.input.forEach((file) => {
     try {
-        const content = yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+        const content = fs.readFileSync(file, 'utf8');
 
-        const sorted = yaml.safeDump(content, {
+        const sorted = yaml.safeDump(yaml.safeLoad(content), {
             sortKeys: true,
             indent: argv.indent,
             lineWidth: argv.lineWidth,
         });
 
-        if (argv.stdout) {
+        if (argv.check) {
+            if (sorted !== content) {
+                success = false;
+                console.warn(`'${file}' is not sorted and/or formatted (indent, line width).`);
+            }
+        } else if (argv.stdout) {
             console.log(sorted);
         } else {
             fs.writeFile(
@@ -79,6 +92,11 @@ argv.input.forEach((file) => {
                 });
         }
     } catch (error) {
+        success = false;
         console.error(error);
     }
 });
+
+if (!success) {
+    process.exit(1);
+}

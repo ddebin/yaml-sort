@@ -16,9 +16,10 @@ This tool is basically a tiny wrapper around [js-yaml](https://github.com/nodeca
 Usage: yaml-sort [options]
 
 Options:
-  --input, -i      The YAML file which needs to be sorted  [array] [required]
+  --input, -i      The YAML file(s) which needs to be sorted  [array] [required]
   --output, -o     The YAML file to output sorted content to  [string]
-  --stdout, -s     Outputs the proposed sort to STDOUT only  [boolean] [default: false]
+  --stdout, -s     Output the proposed sort to STDOUT only  [boolean] [default: false]
+  --check, -k      Check if the given file(s) is already sorted  [boolean] [default: false]
   --indent, --id   Indentation width to use (in spaces)  [number] [default: 2]
   --lineWidth, -w  Wrap line width  [number] [default: 80]
   -h, --help       Show help  [boolean]

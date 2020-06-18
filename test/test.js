@@ -64,3 +64,22 @@ test('CLI --lineWidth', (t) => {
         '\n');
     proc.end();
 });
+
+test('CLI --check FAIL', (t) => {
+    const proc = spawn(t,
+        '../yaml-sort.js --input test.yml --check', opts);
+    proc.exitCode(1);
+    proc.stdout.match('');
+    proc.stderr.match('\'test.yml\' is not sorted and/or formatted (indent, line width).\n');
+    proc.end();
+});
+
+test('CLI --lineWidth SUCCESS', (t) => {
+    const proc = spawn(t,
+        '../yaml-sort.js --input test.yml --output output.yml' +
+        ' && ../yaml-sort.js --input output.yml --check' +
+        ' && rm -f output.yml', opts);
+    proc.exitCode(0);
+    proc.stdout.match('');
+    proc.end();
+});
