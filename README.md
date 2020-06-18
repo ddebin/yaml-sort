@@ -1,3 +1,6 @@
+![Node.js CI](https://github.com/ddebin/yaml-sort/workflows/Node.js%20CI/badge.svg)
+![Node.js Package](https://github.com/ddebin/yaml-sort/workflows/Node.js%20Package/badge.svg)
+
 # About
 
 `yaml-sort` is a CLI tool sorting alphabetically [YAML](https://yaml.org/) files.
