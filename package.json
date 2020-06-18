@@ -1,0 +1,43 @@
+{
+  "name": "yaml-sort",
+  "version": "1.0.0",
+  "description": "CLI tool to sort YAML files alphabetically",
+  "main": "index.js",
+  "scripts": {
+    "test": "test/test.js",
+    "lint": "eslint index.js test/*.js",
+    "fix": "eslint --fix index.js test/*.js"
+  },
+  "bin": {
+    "yaml-sort": "index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddebin/yaml-sort.git"
+  },
+  "keywords": [
+    "cli",
+    "yaml",
+    "yml",
+    "sort"
+  ],
+  "author": "Damien Debin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ddebin/yaml-sort/issues"
+  },
+  "homepage": "https://github.com/ddebin/yaml-sort#readme",
+  "dependencies": {
+    "js-yaml": "^3.0.0",
+    "yargs": "^15.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-google": "^0.14.0",
+    "tape": "^5.0.1",
+    "tape-spawn": "^1.4.2"
+  },
+  "engines": {
+    "node": ">=8"
+  }
+}
