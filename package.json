@@ -28,13 +28,13 @@
   },
   "homepage": "https://github.com/ddebin/yaml-sort#readme",
   "dependencies": {
-    "js-yaml": "^3.0.0",
+    "js-yaml": "^3.14.1",
     "yargs": "^15.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
+    "eslint": "^7.23.0",
     "eslint-config-google": "^0.14.0",
-    "tape": "^5.0.1",
+    "tape": "^5.2.2",
     "tape-spawn": "^1.4.2"
   },
   "engines": {
