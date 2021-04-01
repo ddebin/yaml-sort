@@ -16,7 +16,7 @@ test('CLI w/o arg', (t) => {
 test('CLI w/ arg', (t) => {
     const proc = spawn(t, '../yaml-sort.js --input test.yml --stdout', opts);
     proc.exitCode(0);
-    proc.stdout.match('a: \'Lorem ipsum dolor sit amet, consectetur adipiscing elit...\'\n' +
+    proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
         'b:\n' +
         '  b: 35\n' +
         '  c:\n' +
@@ -31,7 +31,7 @@ test('CLI --output', (t) => {
         ' && cat output.yml' +
         ' && rm -f output.yml', opts);
     proc.exitCode(0);
-    proc.stdout.match('a: \'Lorem ipsum dolor sit amet, consectetur adipiscing elit...\'\n' +
+    proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
         'b:\n' +
         '  b: 35\n' +
         '  c:\n' +
@@ -42,7 +42,7 @@ test('CLI --output', (t) => {
 test('CLI --indent', (t) => {
     const proc = spawn(t, '../yaml-sort.js --input test.yml --stdout --indent 4', opts);
     proc.exitCode(0);
-    proc.stdout.match('a: \'Lorem ipsum dolor sit amet, consectetur adipiscing elit...\'\n' +
+    proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
         'b:\n' +
         '    b: 35\n' +
         '    c:\n' +

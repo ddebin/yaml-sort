@@ -68,7 +68,7 @@ argv.input.forEach((file) => {
     try {
         const content = fs.readFileSync(file, 'utf8');
 
-        const sorted = yaml.safeDump(yaml.safeLoad(content), {
+        const sorted = yaml.dump(yaml.load(content), {
             sortKeys: true,
             indent: argv.indent,
             lineWidth: argv.lineWidth,
