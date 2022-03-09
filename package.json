@@ -1,12 +1,12 @@
 {
   "name": "yaml-sort",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CLI tool to sort YAML files alphabetically",
   "main": "yaml-sort.js",
   "scripts": {
     "test": "test/test.js",
-    "lint": "eslint *.js test/*.js",
-    "fix": "eslint --fix *.js test/*.js"
+    "lint": "standard",
+    "fix": "standard --fix"
   },
   "bin": {
     "yaml-sort": "yaml-sort.js"
@@ -29,12 +29,12 @@
   "homepage": "https://github.com/ddebin/yaml-sort#readme",
   "dependencies": {
     "js-yaml": "^4.0.0",
-    "yargs": "^15.0.0"
+    "yargs": "^16.0.0"
   },
   "devDependencies": {
-    "eslint": "^7.23.0",
-    "eslint-config-google": "^0.14.0",
-    "tape": "^5.2.2",
+    "eslint": "^7.0.0",
+    "standard": "^16.0.4",
+    "tape": "^5.5.2",
     "tape-spawn": "^1.4.2"
   },
   "engines": {
