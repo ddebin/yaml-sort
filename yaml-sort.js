@@ -2,24 +2,26 @@
 
 'use strict'
 
-const argv = require('yargs')
+const fs = require('fs')
+const yaml = require('js-yaml')
+const yargs = require('yargs')
+
+const argv = yargs
   .usage('Usage: $0 [options]')
-  .example(
-    '$0 --input config.yml',
-    'Sorts alphabetically and overwrites the file config.yml'
-  )
-  .example(
-    '$0 --input config.yml --lineWidth 100 --stdout',
-    'Sorts the file config.yml and output result to STDOUT wrapped to 100 columns'
-  )
-  .example(
-    '$0 --input config.yml --indent 4 --output sorted.yml',
-    'Indents with 4 spaces and outputs result to file sorted.yml'
-  )
+  .example([
+    ['$0 --input config.yml',
+      'Sorts alphabetically and overwrites the file config.yml'],
+    ['$0 --input config.yml --lineWidth 100 --stdout',
+      'Sorts the file config.yml and output result to STDOUT wrapped to 100 columns'],
+    ['$0 --input config.yml --indent 4 --output sorted.yml',
+      'Indents with 4 spaces and outputs result to file sorted.yml'],
+    ['cat config.yml | $0',
+      'Sorts alphabetically from STDIN']
+  ])
   .option('input', {
     alias: 'i',
     describe: 'The YAML file(s) which needs to be sorted',
-    demandOption: 'Please provide an input file',
+    default: '-',
     string: true,
     array: true
   })
@@ -30,14 +32,14 @@ const argv = require('yargs')
   })
   .option('stdout', {
     alias: 's',
-    default: false,
     describe: 'Output the proposed sort to STDOUT only',
+    conflicts: 'output',
     boolean: true
   })
   .option('check', {
     alias: 'k',
-    default: false,
     describe: 'Check if the given file(s) is already sorted',
+    conflicts: ['output', 'stdout'],
     boolean: true
   })
   .option('indent', {
@@ -46,27 +48,36 @@ const argv = require('yargs')
     describe: 'Indentation width to use (in spaces)',
     number: true
   })
+  .option('encoding', {
+    alias: 'e',
+    default: 'utf8',
+    describe: 'Input encoding',
+    choices: ['ascii', 'utf8', 'utf16le']
+  })
   .option('lineWidth', {
     alias: 'w',
     default: 80,
     describe: 'Wrap line width',
     number: true
   })
-  .demandOption(['input'])
   .help('h')
   .alias('h', 'help')
   .version()
   .wrap(null)
   .argv
 
-const yaml = require('js-yaml')
-const fs = require('fs')
-
 let success = true
 
 argv.input.forEach((file) => {
   try {
-    const content = fs.readFileSync(file, 'utf8')
+    const isStdin = file === '-'
+
+    if (isStdin && process.stdin.isTTY) {
+      yargs.showHelp()
+      process.exit(22)
+    }
+
+    const content = fs.readFileSync(isStdin ? process.stdin.fd : file, argv.encoding)
 
     const sorted = yaml.dump(yaml.load(content), {
       sortKeys: true,
@@ -79,7 +90,7 @@ argv.input.forEach((file) => {
         success = false
         console.warn(`'${file}' is not sorted and/or formatted (indent, line width).`)
       }
-    } else if (argv.stdout) {
+    } else if (argv.stdout || (isStdin && !argv.output)) {
       console.log(sorted)
     } else {
       fs.writeFile(
@@ -87,7 +98,8 @@ argv.input.forEach((file) => {
         sorted,
         (error) => {
           if (error) {
-            return console.error(error)
+            success = false
+            console.error(error)
           }
         })
     }
