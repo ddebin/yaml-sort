@@ -6,10 +6,31 @@ const test = require('tape')
 const spawn = require('tape-spawn')
 const opts = { cwd: __dirname }
 
+test('CLI --help', (t) => {
+  const proc = spawn(t, '../yaml-sort.js -h', opts)
+  proc.stdout.match(/^Usage:/)
+  proc.stderr.match('')
+  proc.exitCode(0)
+  proc.end()
+})
+
 test('CLI w/o arg', (t) => {
   const proc = spawn(t, '../yaml-sort.js', opts)
+  proc.stdout.match('')
   proc.exitCode(1)
-  proc.stderr.match(/Missing required argument: input/)
+  proc.end()
+})
+
+test('CLI w/o arg (STDIN)', (t) => {
+  const proc = spawn(t, 'cat test.yml | ../yaml-sort.js', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    d: false\n' +
+      '\n')
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -22,6 +43,7 @@ test('CLI w/ arg', (t) => {
         '  c:\n' +
         '    d: false\n' +
         '\n')
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -36,6 +58,22 @@ test('CLI --output', (t) => {
         '  b: 35\n' +
         '  c:\n' +
         '    d: false\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI --output (STDIN)', (t) => {
+  const proc = spawn(t,
+    'cat test.yml | ../yaml-sort.js --input - --output output.yml' +
+      ' && cat output.yml' +
+      ' && rm -f output.yml', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    d: false\n')
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -48,6 +86,7 @@ test('CLI --indent', (t) => {
         '    c:\n' +
         '        d: false\n' +
         '\n')
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -62,6 +101,7 @@ test('CLI --lineWidth', (t) => {
         '  c:\n' +
         '    d: false\n' +
         '\n')
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -79,6 +119,24 @@ test('CLI --check SUCCESS', (t) => {
     '../yaml-sort.js --input sorted.yml --check', opts)
   proc.exitCode(0)
   proc.stdout.match('')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI --encoding FAIL', (t) => {
+  const proc = spawn(t,
+    '../yaml-sort.js --input test-utf16le.yml --stdout', opts)
+  proc.exitCode(1)
+  proc.stdout.match('')
+  proc.stderr.match(/null byte is not allowed in input/)
+  proc.end()
+})
+
+test('CLI --encoding SUCCESS', (t) => {
+  const proc = spawn(t,
+    '../yaml-sort.js --input test-utf16le.yml --stdout --encoding utf16le', opts)
+  proc.exitCode(0)
+  proc.stderr.match('')
   proc.end()
 })
 
@@ -89,5 +147,24 @@ test('CLI --lineWidth SUCCESS', (t) => {
         ' && rm -f output.yml', opts)
   proc.exitCode(0)
   proc.stdout.match('')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI --output --stdout FAIL', (t) => {
+  const proc = spawn(t,
+    '../yaml-sort.js --input test.yml --stdout --output output.yml', opts)
+  proc.exitCode(1)
+  proc.stdout.match('')
+  proc.stderr.match(/Arguments stdout and output are mutually exclusive/)
+  proc.end()
+})
+
+test('CLI --check --stdout FAIL', (t) => {
+  const proc = spawn(t,
+    '../yaml-sort.js --input test.yml --check --stdout', opts)
+  proc.exitCode(1)
+  proc.stdout.match('')
+  proc.stderr.match(/Arguments check and stdout are mutually exclusive/)
   proc.end()
 })
