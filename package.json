@@ -1,7 +1,7 @@
 {
   "name": "yaml-sort",
   "version": "1.2.0",
-  "description": "CLI tool to sort YAML files alphabetically",
+  "description": "Sort YAML files alphabetically",
   "main": "yaml-sort.js",
   "scripts": {
     "test": "test/test.js",
@@ -19,9 +19,11 @@
     "cli",
     "yaml",
     "yml",
-    "sort"
+    "sort",
+    "stream",
+    "shell"
   ],
-  "author": "Damien Debin",
+  "author": "Damien Debin <damien.debin@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ddebin/yaml-sort/issues"
@@ -38,6 +40,6 @@
     "tape-spawn": "^1.4.2"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=10.3.0"
   }
 }

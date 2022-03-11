@@ -1,8 +1,9 @@
 ![Node.js CI](https://github.com/ddebin/yaml-sort/workflows/Node.js%20CI/badge.svg)
+[![npm version](https://badge.fury.io/js/yaml-sort.svg)](https://www.npmjs.com/package/yaml-sort)
 
 # About
 
-`yaml-sort` is a CLI tool sorting alphabetically [YAML](https://yaml.org/) files.
+`yaml-sort` sorts [YAML](https://yaml.org/) files alphabetically.
 
 This tool is basically a tiny wrapper around [js-yaml](https://github.com/nodeca/js-yaml).
 
