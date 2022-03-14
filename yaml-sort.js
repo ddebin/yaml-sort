@@ -54,6 +54,12 @@ const argv = yargs
     describe: 'Input encoding',
     choices: ['ascii', 'utf8', 'utf16le']
   })
+  .option('quotingStyle', {
+    alias: 'q',
+    default: 'single',
+    describe: 'Strings will be quoted using this quoting style',
+    choices: ['single', 'double']
+  })
   .option('lineWidth', {
     alias: 'w',
     default: 80,
@@ -73,7 +79,7 @@ argv.input.forEach((file) => {
     const isStdin = file === '-'
 
     if (isStdin && process.stdin.isTTY) {
-      yargs.showHelp()
+      console.error('Missing filename or input ("yaml-sort --help" for help)')
       process.exit(22)
     }
 
@@ -82,7 +88,8 @@ argv.input.forEach((file) => {
     const sorted = yaml.dump(yaml.load(content), {
       sortKeys: true,
       indent: argv.indent,
-      lineWidth: argv.lineWidth
+      lineWidth: argv.lineWidth,
+      quotingType: argv.quotingStyle === 'double' ? '"' : "'"
     })
 
     if (argv.check) {
