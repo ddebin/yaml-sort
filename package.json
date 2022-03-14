@@ -1,6 +1,6 @@
 {
   "name": "yaml-sort",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Sort YAML files alphabetically",
   "main": "yaml-sort.js",
   "scripts": {
