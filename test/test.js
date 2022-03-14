@@ -47,6 +47,38 @@ test('CLI w/ arg', (t) => {
   proc.end()
 })
 
+test('CLI quoting style single', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quotingStyle single', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    a: \'hello: "john"\'\n' +
+      '    d: false\n' +
+      '    e: \'"foo"\'\n' +
+      '    f: \'\'\'foo\'\'\'\n' +
+      '\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI quoting style double', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quotingStyle double', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    a: "hello: \\"john\\""\n' +
+      '    d: false\n' +
+      '    e: "\\"foo\\""\n' +
+      '    f: "\'foo\'"\n' +
+      '\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
 test('CLI --output', (t) => {
   const proc = spawn(t,
     '../yaml-sort.js --input test.yml --output output.yml' +

@@ -1,0 +1,8 @@
+b:
+  c:
+    d: false
+    f: "'foo'"
+    e: '"foo"'
+    a: 'hello: "john"'
+  b: 35
+a: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...'
