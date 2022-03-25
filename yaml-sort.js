@@ -63,7 +63,7 @@ const argv = yargs
   .option('lineWidth', {
     alias: 'w',
     default: 80,
-    describe: 'Wrap line width',
+    describe: 'Wrap line width (-1 for unlimited width)',
     number: true
   })
   .help('h')

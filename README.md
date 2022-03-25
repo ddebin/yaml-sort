@@ -26,7 +26,7 @@ Options:
       --indent, --id  Indentation width to use (in spaces)  [number] [default: 2]
   -e, --encoding      Input encoding  [choices: "ascii", "utf8", "utf16le"] [default: "utf8"]
   -q, --quotingStyle  Strings will be quoted using this quoting style  [choices: "single", "double"] [default: "single"]
-  -w, --lineWidth     Wrap line width  [number] [default: 80]
+  -w, --lineWidth     Wrap line width (-1 for unlimited width)  [number] [default: 80]
   -h, --help          Show help  [boolean]
       --version       Show version number  [boolean]
 
