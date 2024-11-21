@@ -22,12 +22,16 @@ const argv = yargs
     alias: 'i',
     describe: 'The YAML file(s) which needs to be sorted',
     default: '-',
+    defaultDescription: 'STDIN',
+    normalize: true,
     string: true,
     array: true
   })
   .option('output', {
     alias: 'o',
     describe: 'The YAML file to output sorted content to',
+    defaultDescription: 'overwrite input file if specified or STDOUT',
+    normalize: true,
     string: true
   })
   .option('stdout', {
@@ -45,7 +49,7 @@ const argv = yargs
   .option('indent', {
     alias: 'id',
     default: 2,
-    describe: 'Indentation width to use (in spaces)',
+    describe: 'Indentation width (in spaces)',
     number: true
   })
   .option('encoding', {
@@ -83,6 +87,11 @@ argv.input.forEach((file) => {
       process.exit(22)
     }
 
+    const output =
+        argv.stdout || (argv.output === '.') || (isStdin && !argv.output)
+          ? process.stdout.fd
+          : (argv.output ? argv.output : file)
+
     const content = fs.readFileSync(isStdin ? process.stdin.fd : file, argv.encoding)
 
     const sorted = yaml.dump(yaml.load(content), {
@@ -97,11 +106,9 @@ argv.input.forEach((file) => {
         success = false
         console.warn(`'${file}' is not sorted and/or formatted (indent, line width).`)
       }
-    } else if (argv.stdout || (isStdin && !argv.output)) {
-      console.log(sorted)
     } else {
       fs.writeFile(
-        argv.output ? argv.output : file,
+        output,
         sorted,
         (error) => {
           if (error) {
