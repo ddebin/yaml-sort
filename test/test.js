@@ -137,6 +137,19 @@ test('CLI --lineWidth', (t) => {
   proc.end()
 })
 
+test('CLI --lineWidth unlimited', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test-long-line.yml --stdout --lineWidth -1', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec volutpat mi, ac consectetur est. Proin venenatis tortor ut erat interdum finibus.\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    d: false\n' +
+      '\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
 test('CLI --check FAIL', (t) => {
   const proc = spawn(t,
     '../yaml-sort.js --input test.yml --check', opts)
