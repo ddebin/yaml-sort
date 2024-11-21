@@ -28,8 +28,7 @@ test('CLI w/o arg (STDIN)', (t) => {
       'b:\n' +
       '  b: 35\n' +
       '  c:\n' +
-      '    d: false\n' +
-      '\n')
+      '    d: false\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -41,8 +40,7 @@ test('CLI w/ arg', (t) => {
         'b:\n' +
         '  b: 35\n' +
         '  c:\n' +
-        '    d: false\n' +
-        '\n')
+        '    d: false\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -57,8 +55,7 @@ test('CLI quoting style single', (t) => {
       '    a: \'hello: "john"\'\n' +
       '    d: false\n' +
       '    e: \'"foo"\'\n' +
-      '    f: \'\'\'foo\'\'\'\n' +
-      '\n')
+      '    f: \'\'\'foo\'\'\'\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -73,8 +70,7 @@ test('CLI quoting style double', (t) => {
       '    a: "hello: \\"john\\""\n' +
       '    d: false\n' +
       '    e: "\\"foo\\""\n' +
-      '    f: "\'foo\'"\n' +
-      '\n')
+      '    f: "\'foo\'"\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -94,11 +90,34 @@ test('CLI --output', (t) => {
   proc.end()
 })
 
+test('CLI --output -', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test.yml --output -', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    d: false\n')
+  proc.stderr.match('')
+  proc.end()
+})
 test('CLI --output (STDIN)', (t) => {
   const proc = spawn(t,
     'cat test.yml | ../yaml-sort.js --input - --output output.yml' +
       ' && cat output.yml' +
       ' && rm -f output.yml', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
+      'b:\n' +
+      '  b: 35\n' +
+      '  c:\n' +
+      '    d: false\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI (STDIN) (STDOUT)', (t) => {
+  const proc = spawn(t, 'cat test.yml | ../yaml-sort.js', opts)
   proc.exitCode(0)
   proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
       'b:\n' +
@@ -116,8 +135,7 @@ test('CLI --indent', (t) => {
         'b:\n' +
         '    b: 35\n' +
         '    c:\n' +
-        '        d: false\n' +
-        '\n')
+        '        d: false\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -131,8 +149,7 @@ test('CLI --lineWidth', (t) => {
         'b:\n' +
         '  b: 35\n' +
         '  c:\n' +
-        '    d: false\n' +
-        '\n')
+        '    d: false\n')
   proc.stderr.match('')
   proc.end()
 })
@@ -144,8 +161,7 @@ test('CLI --lineWidth unlimited', (t) => {
       'b:\n' +
       '  b: 35\n' +
       '  c:\n' +
-      '    d: false\n' +
-      '\n')
+      '    d: false\n')
   proc.stderr.match('')
   proc.end()
 })
