@@ -1,0 +1,6 @@
+a: first value
+b: value
+a: second value  # Duplicate key
+c:
+  d: value1
+  d: value2      # Duplicate key 

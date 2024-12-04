@@ -1,0 +1,9 @@
+---
+a: first document
+b: 1
+c:
+  d: true
+---
+x: second document
+'y':
+  z: false

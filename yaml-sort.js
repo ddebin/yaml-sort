@@ -64,6 +64,11 @@ const argv = yargs
     describe: 'Strings will be quoted using this quoting style',
     choices: ['single', 'double']
   })
+  .option('forceQuotes', {
+    alias: 'f',
+    describe: 'Force quotes around all strings',
+    boolean: true
+  })
   .option('lineWidth', {
     alias: 'w',
     default: 80,
@@ -88,28 +93,35 @@ argv.input.forEach((file) => {
     }
 
     const output =
-        argv.stdout || (argv.output === '.') || (isStdin && !argv.output)
-          ? process.stdout.fd
-          : (argv.output ? argv.output : file)
+      argv.stdout || (argv.output === '.') || (isStdin && !argv.output)
+        ? process.stdout.fd
+        : (argv.output ? argv.output : file)
 
     const content = fs.readFileSync(isStdin ? process.stdin.fd : file, argv.encoding)
 
-    const sorted = yaml.dump(yaml.load(content), {
+    const documents = yaml.loadAll(content)
+
+    const sortedDocuments = documents.map(doc => yaml.dump(doc, {
       sortKeys: true,
       indent: argv.indent,
       lineWidth: argv.lineWidth,
-      quotingType: argv.quotingStyle === 'double' ? '"' : "'"
-    })
+      quotingType: argv.quotingStyle === 'double' ? '"' : "'",
+      forceQuotes: argv.forceQuotes
+    }))
+
+    const hasDocumentStart = content.toString().trimStart().startsWith('---')
+
+    const sortedContent = (hasDocumentStart ? '---\n' : '') + sortedDocuments.join('---\n')
 
     if (argv.check) {
-      if (sorted !== content.toString()) {
+      if (sortedContent !== content.toString()) {
         success = false
         console.warn(`'${file}' is not sorted and/or formatted (indent, line width).`)
       }
     } else {
       fs.writeFile(
         output,
-        sorted,
+        sortedContent,
         (error) => {
           if (error) {
             success = false
