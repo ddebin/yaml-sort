@@ -26,6 +26,7 @@ Options:
       --indent, --id  Indentation width (in spaces)  [number] [default: 2]
   -e, --encoding      Input encoding  [choices: "ascii", "utf8", "utf16le"] [default: "utf8"]
   -q, --quotingStyle  Strings will be quoted using this quoting style  [choices: "single", "double"] [default: "single"]
+  -f, --forceQuotes   Force quotes for all scalar values  [boolean] [default: false]
   -w, --lineWidth     Wrap line width (-1 for unlimited width)  [number] [default: 80]
   -h, --help          Show help  [boolean]
       --version       Show version number  [boolean]
@@ -34,5 +35,6 @@ Examples:
   yaml-sort --input config.yml                                 Sorts alphabetically and overwrites the file config.yml
   yaml-sort --input config.yml --lineWidth 100 --stdout        Sorts the file config.yml and output result to STDOUT wrapped to 100 columns
   yaml-sort --input config.yml --indent 4 --output sorted.yml  Indents with 4 spaces and outputs result to file sorted.yml
+  yaml-sort --input config.yml --forceQuotes --quotingStyle double  Forces double quotes for all scalar values
   cat config.yml | yaml-sort                                   Sorts alphabetically from STDIN
 ```
