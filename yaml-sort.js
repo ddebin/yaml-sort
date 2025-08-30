@@ -15,6 +15,7 @@ const argv = yargs
       'Sorts the file config.yml and output result to STDOUT wrapped to 100 columns'],
     ['$0 --input config.yml --indent 4 --output sorted.yml',
       'Indents with 4 spaces and outputs result to file sorted.yml'],
+    ['$0 --input config.yml --prioritize name', 'Sorts alphabetically, keeps "name" key at the top'],
     ['cat config.yml | $0',
       'Sorts alphabetically from STDIN']
   ])
@@ -75,6 +76,11 @@ const argv = yargs
     describe: 'Wrap line width (-1 for unlimited width)',
     number: true
   })
+  .option('prioritize', {
+    alias: 'p',
+    describe: 'Comma seperated list of keys to prioritize',
+    string: true
+  })
   .help('h')
   .alias('h', 'help')
   .version()
@@ -101,8 +107,16 @@ argv.input.forEach((file) => {
 
     const documents = yaml.loadAll(content)
 
+    const prioritize = argv.prioritize ? argv.prioritize.split(',').reverse() : []
+
     const sortedDocuments = documents.map(doc => yaml.dump(doc, {
-      sortKeys: true,
+      sortKeys: function (a, b) {
+        const ia = prioritize.indexOf(a)
+        const ib = prioritize.indexOf(b)
+        return ia !== -1 || ib !== -1
+          ? (ib < ia ? -1 : ib > ia)
+          : (a < b ? -1 : a > b)
+      },
       indent: argv.indent,
       lineWidth: argv.lineWidth,
       quotingType: argv.quotingStyle === 'double' ? '"' : "'",
