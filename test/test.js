@@ -298,3 +298,27 @@ test('CLI multiple YAML documents --check SUCCESS', (t) => {
   proc.stderr.match('')
   proc.end()
 })
+
+test('CLI w order (full)', (t) => {
+  const proc = spawn(t, 'cat test-order.yml | ../yaml-sort.js --prioritize e,d,c', opts)
+  proc.exitCode(0)
+  proc.stdout.match('a: Lorem ipsum...\n' +
+    'b:\n' +
+    '  e: eee\n' +
+    '  d: ddd\n' +
+    '  c: ccc\n')
+  proc.stderr.match('')
+  proc.end()
+})
+
+test('CLI w order (partial)', (t) => {
+  const proc = spawn(t, 'cat test-order.yml | ../yaml-sort.js --prioritize f,e,b', opts)
+  proc.exitCode(0)
+  proc.stdout.match('b:\n' +
+    '  e: eee\n' +
+    '  c: ccc\n' +
+    '  d: ddd\n' +
+    'a: Lorem ipsum...\n')
+  proc.stderr.match('')
+  proc.end()
+})
