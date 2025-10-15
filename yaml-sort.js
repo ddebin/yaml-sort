@@ -5,8 +5,9 @@
 const fs = require('fs')
 const yaml = require('js-yaml')
 const yargs = require('yargs')
+const { hideBin } = require('yargs/helpers')
 
-const argv = yargs
+const argv = yargs(hideBin(process.argv))
   .usage('Usage: $0 [options]')
   .example([
     ['$0 --input config.yml',
@@ -79,7 +80,7 @@ const argv = yargs
   .alias('h', 'help')
   .version()
   .wrap(null)
-  .argv
+  .parse()
 
 let success = true
 
