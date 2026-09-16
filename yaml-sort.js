@@ -106,7 +106,7 @@ argv.input.forEach((file) => {
       sortKeys: true,
       indent: argv.indent,
       lineWidth: argv.lineWidth,
-      quotingType: argv.quotingStyle === 'double' ? '"' : "'",
+      quoteStyle: argv.quotingStyle,
       forceQuotes: argv.forceQuotes
     }))
 
