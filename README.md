@@ -25,7 +25,7 @@ Options:
   -k, --check         Check if the given file(s) is already sorted  [boolean]
       --indent, --id  Indentation width (in spaces)  [number] [default: 2]
   -e, --encoding      Input encoding  [choices: "ascii", "utf8", "utf16le"] [default: "utf8"]
-  -q, --quotingStyle  Strings will be quoted using this quoting style  [choices: "single", "double"] [default: "single"]
+  -q, --quoteStyle    Strings will be quoted using this quote style  [choices: "single", "double"] [default: "single"]
   -f, --forceQuotes   Force quotes around all strings  [boolean]
   -w, --lineWidth     Wrap line width (-1 for unlimited width)  [number] [default: 80]
   -h, --help          Show help  [boolean]

@@ -59,10 +59,10 @@ const argv = yargs(hideBin(process.argv))
     describe: 'Input encoding',
     choices: ['ascii', 'utf8', 'utf16le']
   })
-  .option('quotingStyle', {
+  .option('quoteStyle', {
     alias: 'q',
     default: 'single',
-    describe: 'Strings will be quoted using this quoting style',
+    describe: 'Strings will be quoted using this quote style',
     choices: ['single', 'double']
   })
   .option('forceQuotes', {
@@ -106,7 +106,7 @@ argv.input.forEach((file) => {
       sortKeys: true,
       indent: argv.indent,
       lineWidth: argv.lineWidth,
-      quoteStyle: argv.quotingStyle,
+      quoteStyle: argv.quoteStyle,
       forceQuotes: argv.forceQuotes
     }))
 

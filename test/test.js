@@ -45,8 +45,8 @@ test('CLI w/ arg', (t) => {
   proc.end()
 })
 
-test('CLI quoting style single', (t) => {
-  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quotingStyle single', opts)
+test('CLI quote style single', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quoteStyle single', opts)
   proc.exitCode(0)
   proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
     'b:\n' +
@@ -60,8 +60,8 @@ test('CLI quoting style single', (t) => {
   proc.end()
 })
 
-test('CLI quoting style double', (t) => {
-  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quotingStyle double', opts)
+test('CLI quote style double', (t) => {
+  const proc = spawn(t, '../yaml-sort.js --input test-edges.yml --stdout --quoteStyle double', opts)
   proc.exitCode(0)
   proc.stdout.match('a: Lorem ipsum dolor sit amet, consectetur adipiscing elit...\n' +
     'b:\n' +
@@ -248,7 +248,7 @@ test('CLI --check --stdout FAIL', (t) => {
 })
 
 test('CLI multiple YAML documents with single quotes', (t) => {
-  const proc = spawn(t, '../yaml-sort.js --input test-multiple.yml --stdout --quotingStyle single --forceQuotes', opts)
+  const proc = spawn(t, '../yaml-sort.js --input test-multiple.yml --stdout --quoteStyle single --forceQuotes', opts)
   proc.exitCode(0)
   proc.stdout.match(
     '---\n' +
@@ -266,7 +266,7 @@ test('CLI multiple YAML documents with single quotes', (t) => {
 })
 
 test('CLI multiple YAML documents with double quotes', (t) => {
-  const proc = spawn(t, '../yaml-sort.js --input test-multiple.yml --stdout --quotingStyle double --forceQuotes', opts)
+  const proc = spawn(t, '../yaml-sort.js --input test-multiple.yml --stdout --quoteStyle double --forceQuotes', opts)
   proc.exitCode(0)
   proc.stdout.match(
     '---\n' +
@@ -284,7 +284,7 @@ test('CLI multiple YAML documents with double quotes', (t) => {
 })
 
 test('CLI multiple YAML documents --check FAIL', (t) => {
-  const proc = spawn(t, '../yaml-sort.js --input test-multiple-unsorted.yml --check --quotingStyle single --forceQuotes', opts)
+  const proc = spawn(t, '../yaml-sort.js --input test-multiple-unsorted.yml --check --quoteStyle single --forceQuotes', opts)
   proc.exitCode(1)
   proc.stdout.match('')
   proc.stderr.match('\'test-multiple-unsorted.yml\' is not sorted and/or formatted (indent, line width).\n')
